@@ -11,7 +11,7 @@ class CriticalCss
     /**
      * @var ProcessFactory
      */
-    private $processFactory;
+    protected $processFactory;
 
     public function __construct(ProcessFactory $processFactory)
     {

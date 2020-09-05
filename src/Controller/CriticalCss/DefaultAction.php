@@ -12,7 +12,7 @@ class DefaultAction extends Action
     /**
      * @var PageFactory
      */
-    private $pageFactory;
+    protected $pageFactory;
 
     public function __construct(
         PageFactory $pageFactory,

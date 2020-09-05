@@ -1,16 +1,6 @@
 <?php
-/**
- * CustomerProvider.php
- *
- * @category    Leonex
- * @package     ???
- * @author      Thomas Hampe <hampe@leonex.de>
- * @copyright   Copyright (c) 2020, LEONEX Internet GmbH
- */
-
 
 namespace M2Boilerplate\CriticalCss\Provider;
-
 
 use Magento\Framework\App\Request\Http;
 use Magento\Framework\App\RequestInterface;

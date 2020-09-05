@@ -1,16 +1,6 @@
 <?php
-/**
- * ProductProvider.php
- *
- * @category    Leonex
- * @package     ???
- * @author      Thomas Hampe <hampe@leonex.de>
- * @copyright   Copyright (c) 2020, LEONEX Internet GmbH
- */
-
 
 namespace M2Boilerplate\CriticalCss\Provider;
-
 
 use Magento\Catalog\Model\Product;
 use Magento\Catalog\Model\Product\Attribute\Source\Status;
@@ -50,7 +40,7 @@ class ProductProvider implements ProviderInterface
     /**
      * @var Registry
      */
-    private $registry;
+    protected $registry;
 
     public function __construct(
         Registry $registry,

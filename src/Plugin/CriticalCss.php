@@ -30,15 +30,15 @@ class CriticalCss
     /**
      * @var Storage
      */
-    private $storage;
+    protected $storage;
     /**
      * @var Identifier
      */
-    private $identifier;
+    protected $identifier;
     /**
      * @var StoreManagerInterface
      */
-    private $storeManager;
+    protected $storeManager;
 
     public function __construct(
         LayoutInterface $layout,

@@ -1,16 +1,6 @@
 <?php
-/**
- * CmsPageProvider.php
- *
- * @category    Leonex
- * @package     ???
- * @author      Thomas Hampe <hampe@leonex.de>
- * @copyright   Copyright (c) 2020, LEONEX Internet GmbH
- */
-
 
 namespace M2Boilerplate\CriticalCss\Provider;
-
 
 use Magento\Cms\Api\PageRepositoryInterface;
 use Magento\Framework\Api\SearchCriteriaBuilder;
@@ -27,19 +17,19 @@ class CmsPageProvider implements ProviderInterface
     /**
      * @var UrlInterface
      */
-    private $url;
+    protected $url;
     /**
      * @var PageRepositoryInterface
      */
-    private $pageRepository;
+    protected $pageRepository;
     /**
      * @var SearchCriteriaBuilder
      */
-    private $searchCriteriaBuilder;
+    protected $searchCriteriaBuilder;
     /**
      * @var \Magento\Cms\Helper\Page
      */
-    private $pageHelper;
+    protected $pageHelper;
 
     public function __construct(
         \Magento\Cms\Helper\Page $pageHelper,

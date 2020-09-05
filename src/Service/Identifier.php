@@ -1,16 +1,6 @@
 <?php
-/**
- * Identifier.php
- *
- * @category    Leonex
- * @package     ???
- * @author      Thomas Hampe <hampe@leonex.de>
- * @copyright   Copyright (c) 2020, LEONEX Internet GmbH
- */
-
 
 namespace M2Boilerplate\CriticalCss\Service;
-
 
 use M2Boilerplate\CriticalCss\Provider\ProviderInterface;
 use Magento\Framework\Encryption\Encryptor;
@@ -21,7 +11,7 @@ class Identifier
     /**
      * @var Encryptor
      */
-    private $encryptor;
+    protected $encryptor;
 
     public function __construct(Encryptor $encryptor)
     {

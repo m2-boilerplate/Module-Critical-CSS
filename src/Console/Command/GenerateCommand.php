@@ -26,7 +26,7 @@ class GenerateCommand extends Command
     /**
      * @var ObjectManagerInterface
      */
-    private $objectManager;
+    protected $objectManager;
     /**
      * @var Config
      */
@@ -34,7 +34,7 @@ class GenerateCommand extends Command
     /**
      * @var CriticalCss
      */
-    private $criticalCssService;
+    protected $criticalCssService;
 
 
     public function __construct(
