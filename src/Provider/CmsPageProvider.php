@@ -1,0 +1,110 @@
+<?php
+/**
+ * CmsPageProvider.php
+ *
+ * @category    Leonex
+ * @package     ???
+ * @author      Thomas Hampe <hampe@leonex.de>
+ * @copyright   Copyright (c) 2020, LEONEX Internet GmbH
+ */
+
+
+namespace M2Boilerplate\CriticalCss\Provider;
+
+
+use Magento\Cms\Api\PageRepositoryInterface;
+use Magento\Framework\Api\SearchCriteriaBuilder;
+use Magento\Framework\App\Request\Http;
+use Magento\Framework\App\RequestInterface;
+use Magento\Framework\Exception\LocalizedException;
+use Magento\Framework\UrlInterface;
+use Magento\Framework\View\LayoutInterface;
+use Magento\Store\Api\Data\StoreInterface;
+
+class CmsPageProvider implements ProviderInterface
+{
+    const NAME = 'cms_page';
+    /**
+     * @var UrlInterface
+     */
+    private $url;
+    /**
+     * @var PageRepositoryInterface
+     */
+    private $pageRepository;
+    /**
+     * @var SearchCriteriaBuilder
+     */
+    private $searchCriteriaBuilder;
+    /**
+     * @var \Magento\Cms\Helper\Page
+     */
+    private $pageHelper;
+
+    public function __construct(
+        \Magento\Cms\Helper\Page $pageHelper,
+        UrlInterface $url,
+        PageRepositoryInterface $pageRepository,
+        SearchCriteriaBuilder $searchCriteriaBuilder
+    ) {
+        $this->url = $url;
+        $this->pageRepository = $pageRepository;
+        $this->searchCriteriaBuilder = $searchCriteriaBuilder;
+        $this->pageHelper = $pageHelper;
+    }
+
+
+    public function getUrls(StoreInterface $store): array
+    {
+        $urls = [];
+        $searchCriteria = $this->searchCriteriaBuilder
+            ->addFilter('is_active', '1')
+            ->addFilter('store_id', [$store->getId(), 0], 'in')
+            ->create();
+        try {
+            $pages = $this->pageRepository->getList($searchCriteria);
+        }
+
+        catch (LocalizedException $e) {
+            return [];
+        }
+        $urls['cms_index_index'] = $this->url->getUrl('/');
+        foreach ($pages->getItems() as $page) {
+            $urls[$page->getId()] = $this->pageHelper->getPageUrl($page->getId());
+        }
+        return $urls;
+    }
+
+    public function getName(): string
+    {
+        return self::NAME;
+    }
+
+    public function isAvailable(): bool
+    {
+        return true;
+    }
+
+    public function getPriority(): int
+    {
+        return 1000;
+    }
+
+    public function getCssIdentifierForRequest(RequestInterface $request, LayoutInterface $layout): ?string
+    {
+        if ($request->getModuleName() !== 'cms' || !$request instanceof Http) {
+            return null;
+        }
+        if ($request->getFullActionName('_') === 'cms_index_index') {
+            // home page
+            return 'cms_index_index';
+        }
+        if ($request->getFullActionName('_') === 'cms_page_view') {
+            // home page
+            return $request->getParam('page_id');
+        }
+
+        return null;
+    }
+
+}

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="dev">
+            <group id="css">
+                <field id="critical_css_critical_binary" translate="label" type="text" sortOrder="32" showInDefault="1" canRestore="1">
+                    <label>critical Binary</label>
+                    <depends>
+                        <field id="*/*/use_css_critical_path">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment>Installation instructions can be found here: https://github.com/addyosmani/critical#install</comment>
+                </field>
+                <field id="critical_css_dimensions" translate="label" type="text" sortOrder="32" showInDefault="1" canRestore="1">
+                    <label>Browser Dimensions</label>
+                    <depends>
+                        <field id="*/*/use_css_critical_path">1</field>
+                    </depends>
+                    <validate>required-entry</validate>
+                    <comment>Comma separated List, e.g.: 375x812,576x1152,768x1024,1024x768,1280x720</comment>
+                </field>
+                <field id="critical_css_parallel_processes" translate="label" type="text" sortOrder="33" showInDefault="1" canRestore="1">
+                    <label>Parallel critical Processes</label>
+                    <depends>
+                        <field id="*/*/use_css_critical_path">1</field>
+                    </depends>
+                    <validate>validate-digits required-entry</validate>
+                </field>
+                <field id="critical_css_username" translate="label" type="text" sortOrder="34" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Browser Authentication Username</label>
+                    <depends>
+                        <field id="*/*/use_css_critical_path">1</field>
+                    </depends>
+                </field>
+                <field id="critical_css_password" translate="label" type="text" sortOrder="35" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Browser Authentication Password</label>
+                    <depends>
+                        <field id="*/*/use_css_critical_path">1</field>
+                    </depends>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

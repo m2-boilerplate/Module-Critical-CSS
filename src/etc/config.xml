@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <dev>
+            <css>
+                <critical_css_critical_binary>critical</critical_css_critical_binary>
+                <critical_css_dimensions>375x812,576x1152,768x1024,1024x768,1280x720</critical_css_dimensions>
+                <critical_css_parallel_processes>4</critical_css_parallel_processes>
+            </css>
+        </dev>
+    </default>
+</config>

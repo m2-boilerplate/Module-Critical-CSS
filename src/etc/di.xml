@@ -1,0 +1,47 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <type name="Magento\Framework\Console\CommandListInterface">
+        <arguments>
+            <argument name="commands" xsi:type="array">
+                <item name="m2bp_critical_css_generate" xsi:type="object">M2Boilerplate\CriticalCss\Console\Command\GenerateCommand</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="M2Boilerplate\CriticalCss\Provider\Container">
+        <arguments>
+            <argument name="providers" xsi:type="array">
+                <item name="default" xsi:type="object">M2Boilerplate\CriticalCss\Provider\DefaultProvider</item>
+                <item name="cms_page" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CmsPageProvider</item>
+                <item name="customer" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CustomerProvider</item>
+                <item name="contact" xsi:type="object">M2Boilerplate\CriticalCss\Provider\ContactProvider</item>
+                <item name="catalogsearch" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CatalogSearchProvider</item>
+                <item name="product" xsi:type="object">M2Boilerplate\CriticalCss\Provider\ProductProvider</item>
+                <item name="category" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CategoryProvider</item>
+            </argument>
+        </arguments>
+    </type>
+
+    <type name="M2Boilerplate\CriticalCss\Logger\Handler\FileHandler">
+        <arguments>
+            <argument name="fileName" xsi:type="string">/var/log/critical-css.log</argument>
+        </arguments>
+    </type>
+    <virtualType name="M2Boilerplate\CriticalCss\Logger\File" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="debug" xsi:type="object">M2Boilerplate\CriticalCss\Logger\Handler\FileHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <virtualType name="M2Boilerplate\CriticalCss\Logger\Console" type="Magento\Framework\Logger\Monolog">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="console" xsi:type="object">M2Boilerplate\CriticalCss\Logger\Handler\ConsoleHandler</item>
+            </argument>
+        </arguments>
+    </virtualType>
+    <type name="M2Boilerplate\CriticalCss\Service\ProcessManager">
+        <arguments>
+            <argument name="logger" xsi:type="object">M2Boilerplate\CriticalCss\Logger\File</argument>
+        </arguments>
+    </type>
+</config>
