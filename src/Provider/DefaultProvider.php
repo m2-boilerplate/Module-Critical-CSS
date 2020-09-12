@@ -17,6 +17,7 @@ class DefaultProvider implements ProviderInterface
      * @var UrlInterface
      */
     protected $url;
+
     /**
      * @var BuilderInterface
      */

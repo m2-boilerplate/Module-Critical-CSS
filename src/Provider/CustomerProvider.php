@@ -49,7 +49,7 @@ class CustomerProvider implements ProviderInterface
 
     public function getCssIdentifierForRequest(RequestInterface $request, LayoutInterface $layout): ?string
     {
-        if ($request->getModuleName() !== 'cms' || !$request instanceof Http) {
+        if ($request->getModuleName() !== 'customer' || !$request instanceof Http) {
             return null;
         }
 
