@@ -8,6 +8,7 @@ use M2Boilerplate\CriticalCss\Service\CriticalCss;
 use M2Boilerplate\CriticalCss\Service\ProcessManager;
 use M2Boilerplate\CriticalCss\Service\ProcessManagerFactory;
 use Magento\Framework\ObjectManagerInterface;
+use Magento\Framework\App\State;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
@@ -36,6 +37,10 @@ class GenerateCommand extends Command
      */
     protected $criticalCssService;
 
+    /**
+    * @var \Magento\Framework\App\State
+    */
+    protected $state;
 
     public function __construct(
         Config $config,
@@ -43,6 +48,7 @@ class GenerateCommand extends Command
         ObjectManagerInterface $objectManager,
         ConsoleHandlerFactory $consoleHandlerFactory,
         ProcessManagerFactory $processManagerFactory,
+        State $state
         ?string $name = null
     ) {
         parent::__construct($name);
@@ -51,6 +57,7 @@ class GenerateCommand extends Command
         $this->objectManager = $objectManager;
         $this->config = $config;
         $this->criticalCssService = $criticalCssService;
+        $this->state = $state;
     }
 
 
@@ -62,6 +69,8 @@ class GenerateCommand extends Command
 
     protected function execute(InputInterface $input, OutputInterface $output)
     {
+        $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_FRONTEND);
+        
         if (!$this->isEnabled()) {
             $output->writeln('<error>Critical CSS is not enabled please enable it using: bin/magento config:set dev/css/use_css_critical_path 1</error>');
             return -1;
