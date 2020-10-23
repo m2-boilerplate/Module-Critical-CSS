@@ -48,7 +48,7 @@ class GenerateCommand extends Command
         ObjectManagerInterface $objectManager,
         ConsoleHandlerFactory $consoleHandlerFactory,
         ProcessManagerFactory $processManagerFactory,
-        State $state
+        State $state,
         ?string $name = null
     ) {
         parent::__construct($name);
