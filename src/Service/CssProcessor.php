@@ -3,6 +3,7 @@
 namespace M2Boilerplate\CriticalCss\Service;
 
 use Magento\Framework\View\Url\CssResolver;
+use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
 
 class CssProcessor
@@ -25,19 +26,20 @@ class CssProcessor
     public function process(string $cssContent)
     {
         $pattern = '@(\.\./)*(/pub)*/(static.*)@i'; // matches paths that contain pub/static/ or just static/
-        $css = $this->cssResolver->replaceRelativeUrls($cssContent, function ($path) use ($pattern) {
+        $store = $this->storeManager->getStore(); /** @var Store $store */
+        $baseUrl = $store->getBaseUrl();
+        return $this->cssResolver->replaceRelativeUrls($cssContent, function ($path) use ($pattern, $baseUrl) {
             $matches = [];
             if(preg_match($pattern, $path, $matches[0])) {
                 /**
                  * ../../../../../../pub/static/version/frontend/XXX/YYY/de_DE/ZZZ/asset.ext
                  * becomes
-                 * /pub/static/version/frontend/XXX/YYY/de_DE/ZZZ/asset.ext
+                 * https://base.url/pub/static/version/frontend/XXX/YYY/de_DE/ZZZ/asset.ext
                  */
-                return $matches[0][0];
+                return $baseUrl . $matches[0][0];
             }
             return $path;
         });
-        return $css;
     }
 
 }
