@@ -61,6 +61,11 @@ class ProcessManager
      */
     protected $cacheTypeList;
 
+    /**
+     * @var CssProcessor
+     */
+    protected $cssProcessor;
+
     public function __construct(
         TypeListInterface $cacheTypeList,
         LoggerInterface $logger,
@@ -70,7 +75,8 @@ class ProcessManager
         CriticalCss $criticalCssService,
         Emulation $emulation,
         StoreManagerInterface $storeManager,
-        Container $container
+        Container $container,
+        CssProcessor $cssProcessor
     ) {
         $this->emulation = $emulation;
         $this->storeManager = $storeManager;
@@ -81,6 +87,7 @@ class ProcessManager
         $this->storage = $storage;
         $this->logger = $logger;
         $this->cacheTypeList = $cacheTypeList;
+        $this->cssProcessor = $cssProcessor;
     }
 
     /**
@@ -167,7 +174,7 @@ class ProcessManager
         }
 
         $criticalCss = $process->getOutput();
-        $this->storage->saveCriticalCss($context->getIdentifier(), $criticalCss);
+        $this->storage->saveCriticalCss($context->getIdentifier(), $this->cssProcessor->process($criticalCss));
         $size = $this->storage->getFileSize($context->getIdentifier());
         if (!$size) {
             $size = '?';
