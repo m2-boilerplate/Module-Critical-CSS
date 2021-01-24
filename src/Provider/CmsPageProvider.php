@@ -60,6 +60,10 @@ class CmsPageProvider implements ProviderInterface
         }
         $urls['cms_index_index'] = $this->url->getUrl('/');
         foreach ($pages->getItems() as $page) {
+            $url = $this->pageHelper->getPageUrl($page->getId());
+            if (!$url) {
+                continue;
+            }
             $urls[$page->getId()] = $this->pageHelper->getPageUrl($page->getId());
         }
         return $urls;
