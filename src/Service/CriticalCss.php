@@ -44,14 +44,15 @@ class CriticalCss
         }
 
         /** @var Process $process */
-        $process = $this->processFactory->create(['command' => $command]);
+        $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);
 
         return $process;
     }
 
     public function getVersion(string $criticalBinary = 'critical'): string
     {
-        $process = $this->processFactory->create(['command' => [$criticalBinary, '--version']]);
+        $command = [$criticalBinary, '--version'];
+        $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);
         $process->mustRun();
         return trim($process->getOutput());
     }
