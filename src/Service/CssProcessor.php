@@ -26,7 +26,7 @@ class CssProcessor
 
     public function process(string $cssContent)
     {
-        $pattern = '@(\.\./)*(/pub|/pub/static)/(.+)$@i'; // matches paths that contain pub/static/ or just static/
+        $pattern = '@(\.\./)*(/static|/pub/static)/(.+)$@i'; // matches paths that contain pub/static/ or just static/
         $store = $this->storeManager->getStore(); /** @var Store $store */
         $baseUrl = $store->getBaseUrl(UrlInterface::URL_TYPE_WEB);
         return $this->cssResolver->replaceRelativeUrls($cssContent, function ($path) use ($pattern, $baseUrl) {
@@ -37,7 +37,7 @@ class CssProcessor
                  * becomes
                  * https://base.url/pub/static/version/frontend/XXX/YYY/de_DE/ZZZ/asset.ext
                  */
-                return $baseUrl . $matches[0][3];
+                return $baseUrl . ltrim($matches[0][0], '/');
             }
             return $path;
         });
