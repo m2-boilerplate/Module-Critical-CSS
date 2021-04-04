@@ -2,11 +2,13 @@
 
 namespace M2Boilerplate\CriticalCss\Plugin;
 
+use M2Boilerplate\CriticalCss\Console\Command\GenerateCommand;
 use M2Boilerplate\CriticalCss\Provider\Container;
 use M2Boilerplate\CriticalCss\Service\Identifier;
 use M2Boilerplate\CriticalCss\Service\Storage;
 use Magento\Framework\App\RequestInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
+use Magento\Framework\FlagManager;
 use Magento\Framework\View\LayoutInterface;
 use Magento\Store\Model\StoreManagerInterface;
 
@@ -40,7 +42,13 @@ class CriticalCss
      */
     protected $storeManager;
 
+    /**
+     * @var FlagManager
+     */
+    protected $flagManager;
+
     public function __construct(
+        FlagManager $flagManager,
         LayoutInterface $layout,
         RequestInterface $request,
         Container $container,
@@ -48,6 +56,7 @@ class CriticalCss
         Identifier $identifier,
         StoreManagerInterface $storeManager
     ) {
+        $this->flagManager = $flagManager;
         $this->layout = $layout;
         $this->request = $request;
         $this->container = $container;
@@ -58,6 +67,10 @@ class CriticalCss
 
     public function afterGetCriticalCssData(\Magento\Theme\Block\Html\Header\CriticalCss $subject, $result)
     {
+        if ($this->flagManager->getFlagData(GenerateCommand::IS_CRITICAL_CSS_GENERATION_RUNNING)) {
+            // do not expose critical css while the command is still running
+            return '';
+        }
         $providers = $this->container->getProviders();
         try {
             $store = $this->storeManager->getStore();
