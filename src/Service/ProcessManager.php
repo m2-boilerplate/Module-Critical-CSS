@@ -96,6 +96,10 @@ class ProcessManager
      */
     public function executeProcesses(array $processList, bool $deleteOldFiles = false): void
     {
+        $this->cacheTypeList->cleanType('config');
+        $this->cacheTypeList->cleanType('full_page');
+        $this->cacheTypeList->cleanType('block_html');
+
         if ($deleteOldFiles) {
             $this->storage->clean();
         }
@@ -126,6 +130,7 @@ class ProcessManager
         }
 
         // clean cache at the end
+        $this->cacheTypeList->cleanType('config');
         $this->cacheTypeList->cleanType('full_page');
         $this->cacheTypeList->cleanType('block_html');
     }
@@ -133,8 +138,11 @@ class ProcessManager
     public function createProcesses(): array
     {
         $processList = [];
-        foreach ($this->storeManager->getStores() as $store) {
-            $this->emulation->startEnvironmentEmulation($store->getId());
+        foreach ($this->storeManager->getStores() as $storeId => $store) {
+            $this->emulation->startEnvironmentEmulation($storeId,\Magento\Framework\App\Area::AREA_FRONTEND, true);
+            $this->storeManager->setCurrentStore($storeId);
+
+
             foreach ($this->container->getProviders() as $provider) {
                 $processList = array_merge($processList, $this->createProcessesForProvider($provider, $store));
             }

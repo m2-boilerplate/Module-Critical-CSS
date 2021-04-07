@@ -43,6 +43,8 @@ class CriticalCss
             $command[] = $password;
         }
 
+        $command[] = '--strict';
+
         /** @var Process $process */
         $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);
 

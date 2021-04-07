@@ -67,10 +67,6 @@ class CriticalCss
 
     public function afterGetCriticalCssData(\Magento\Theme\Block\Html\Header\CriticalCss $subject, $result)
     {
-        if ($this->flagManager->getFlagData(GenerateCommand::IS_CRITICAL_CSS_GENERATION_RUNNING)) {
-            // do not expose critical css while the command is still running
-            return '';
-        }
         $providers = $this->container->getProviders();
         try {
             $store = $this->storeManager->getStore();
