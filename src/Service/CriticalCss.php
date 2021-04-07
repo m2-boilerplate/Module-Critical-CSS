@@ -44,6 +44,7 @@ class CriticalCss
         }
 
         $command[] = '--strict';
+        $command[] = '--no-request-https.rejectUnauthorized';
 
         /** @var Process $process */
         $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);
