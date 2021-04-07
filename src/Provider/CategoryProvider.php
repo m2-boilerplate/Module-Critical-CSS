@@ -65,7 +65,7 @@ class CategoryProvider implements ProviderInterface
 
             foreach ($collection->getItems() as $category) {
                 /** @var $category Category */
-                $urls[$this->getIdentifier($category)] = $category->getUrl();
+                $urls[$this->getIdentifier($category)] = $store->getUrl("catalog/category/view/",["id" => $category->getId()]);
             }
         } catch (LocalizedException $e) {}
 

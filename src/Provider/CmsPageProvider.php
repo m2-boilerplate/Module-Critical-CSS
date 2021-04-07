@@ -58,13 +58,13 @@ class CmsPageProvider implements ProviderInterface
         catch (LocalizedException $e) {
             return [];
         }
-        $urls['cms_index_index'] = $this->url->getUrl('/');
+        $urls['cms_index_index'] = $store->getUrl('/');
         foreach ($pages->getItems() as $page) {
             $url = $this->pageHelper->getPageUrl($page->getId());
             if (!$url) {
                 continue;
             }
-            $urls[$page->getId()] = $this->pageHelper->getPageUrl($page->getId());
+            $urls[$page->getId()] = $store->getUrl("cms/page/view", ["id" => $page->getId()]);
         }
         return $urls;
     }

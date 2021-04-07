@@ -27,7 +27,7 @@ class ContactProvider implements ProviderInterface
     public function getUrls(StoreInterface $store): array
     {
         return [
-            'contact_index_index' => $this->url->getUrl('contact'),
+            'contact_index_index' => $store->getUrl('contact'),
         ];
     }
 

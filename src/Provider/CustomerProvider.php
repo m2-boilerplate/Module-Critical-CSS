@@ -26,9 +26,9 @@ class CustomerProvider implements ProviderInterface
     public function getUrls(StoreInterface $store): array
     {
         return [
-            'customer_account_login' => $this->url->getUrl('customer/account/login'),
-            'customer_account_create' => $this->url->getUrl('customer/account/create'),
-            'customer_account_forgotpassword' => $this->url->getUrl('customer/account/forgotpassword'),
+            'customer_account_login' => $store->getUrl('customer/account/login'),
+            'customer_account_create' => $store->getUrl('customer/account/create'),
+            'customer_account_forgotpassword' => $store->getUrl('customer/account/forgotpassword'),
         ];
     }
 

@@ -33,8 +33,8 @@ class CatalogSearchProvider implements ProviderInterface
     public function getUrls(StoreInterface $store): array
     {
         $urls = [
-            'catalogsearch_advanced_index' => $this->url->getUrl('catalogsearch/advanced'),
-            'search_term_popular' => $this->url->getUrl('search/term/popular'),
+            'catalogsearch_advanced_index' => $store->getUrl('catalogsearch/advanced'),
+            'search_term_popular' => $store->getUrl('search/term/popular'),
         ];
         /** @var \Magento\Search\Model\Query $term */
         $term = $this->queryCollectionFactory
@@ -42,7 +42,7 @@ class CatalogSearchProvider implements ProviderInterface
             ->setPopularQueryFilter($store->getId())
             ->setPageSize(1)->load()->getFirstItem();
         if ($term->getQueryText()) {
-            $urls['catalogsearch_result_index'] = $this->url->getUrl(
+            $urls['catalogsearch_result_index'] = $store->getUrl(
                 'catalogsearch/result',
                 ['_query' => ['q' => $term->getQueryText()]]
             );
