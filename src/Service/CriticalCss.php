@@ -63,8 +63,8 @@ class CriticalCss
     public function test(string $criticalBinary = 'critical'): void
     {
         $version = $this->getVersion($criticalBinary);
-        if (version_compare($version, '2.0.3', '<')) {
-            throw new \RuntimeException('critical version 2.0.3 is the minimum requirement, got: '.$version);
+        if (version_compare($version, '2.0.6', '<')) {
+            throw new \RuntimeException('critical version 2.0.6 is the minimum requirement, got: '.$version);
         }
     }
 
