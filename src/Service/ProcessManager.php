@@ -56,10 +56,6 @@ class ProcessManager
      */
     protected $logger;
 
-    /**
-     * @var TypeListInterface
-     */
-    protected $cacheTypeList;
 
     /**
      * @var CssProcessor
@@ -67,7 +63,6 @@ class ProcessManager
     protected $cssProcessor;
 
     public function __construct(
-        TypeListInterface $cacheTypeList,
         LoggerInterface $logger,
         Storage $storage,
         ProcessContextFactory $contextFactory,
@@ -86,7 +81,6 @@ class ProcessManager
         $this->contextFactory = $contextFactory;
         $this->storage = $storage;
         $this->logger = $logger;
-        $this->cacheTypeList = $cacheTypeList;
         $this->cssProcessor = $cssProcessor;
     }
 
@@ -96,9 +90,6 @@ class ProcessManager
      */
     public function executeProcesses(array $processList, bool $deleteOldFiles = false): void
     {
-        $this->cacheTypeList->cleanType('config');
-        $this->cacheTypeList->cleanType('full_page');
-        $this->cacheTypeList->cleanType('block_html');
 
         if ($deleteOldFiles) {
             $this->storage->clean();
@@ -129,10 +120,6 @@ class ProcessManager
             usleep(500); // wait for processes to finish
         }
 
-        // clean cache at the end
-        $this->cacheTypeList->cleanType('config');
-        $this->cacheTypeList->cleanType('full_page');
-        $this->cacheTypeList->cleanType('block_html');
     }
 
     public function createProcesses(): array
