@@ -15,7 +15,6 @@ class CriticalCss
 
     public function __construct(ProcessFactory $processFactory)
     {
-
         $this->processFactory = $processFactory;
     }
 

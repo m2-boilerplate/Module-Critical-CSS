@@ -36,7 +36,7 @@ class DefaultProvider implements ProviderInterface
 
         $urls = [];
         foreach ($options as $option) {
-            $urls[$option] =  $store->getUrl('m2bp/criticalCss/default', ['page_layout' => $option]);
+            $urls[$option] = $store->getUrl('m2bp/criticalCss/default', ['page_layout' => $option]);
         }
         return $urls;
     }
