@@ -7,7 +7,6 @@ use M2Boilerplate\CriticalCss\Config\Config;
 use M2Boilerplate\CriticalCss\Model\ProcessContext;
 use M2Boilerplate\CriticalCss\Provider\Container;
 use M2Boilerplate\CriticalCss\Provider\ProviderInterface;
-use Magento\Framework\App\Cache\TypeListInterface;
 use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\App\Emulation;
 use Magento\Store\Model\StoreManagerInterface;
@@ -148,7 +147,9 @@ class ProcessManager
             $process = $this->criticalCssService->createCriticalCssProcess(
                 $url,
                 $this->config->getDimensions(),
-                $this->config->getCriticalBinary()
+                $this->config->getCriticalBinary(),
+                $this->config->getUsername(),
+                $this->config->getPassword()
             );
             $context = $this->contextFactory->create([
                 'process' => $process,
