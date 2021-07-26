@@ -50,6 +50,8 @@ class CmsPageProvider implements ProviderInterface
         $searchCriteria = $this->searchCriteriaBuilder
             ->addFilter('is_active', '1')
             ->addFilter('store_id', [$store->getId(), 0], 'in')
+            ->setPageSize(30)
+            ->setCurrentPage(0)
             ->create();
         try {
             $pages = $this->pageRepository->getList($searchCriteria);
