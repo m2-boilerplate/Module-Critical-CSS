@@ -47,7 +47,7 @@ class CmsPageProvider implements ProviderInterface
     public function getUrls(StoreInterface $store): array
     {
         $urls = [];
-        $searchCriteria = $this->searchCriteriaBuilder
+        /*$searchCriteria = $this->searchCriteriaBuilder
             ->addFilter('is_active', '1')
             ->addFilter('store_id', [$store->getId(), 0], 'in')
             ->setPageSize(30)
@@ -59,15 +59,15 @@ class CmsPageProvider implements ProviderInterface
 
         catch (LocalizedException $e) {
             return [];
-        }
+        }*/
         $urls['cms_index_index'] = $store->getUrl('/');
-        foreach ($pages->getItems() as $page) {
+        /*foreach ($pages->getItems() as $page) {
             $url = $this->pageHelper->getPageUrl($page->getId());
             if (!$url) {
                 continue;
             }
             $urls[$page->getId()] = $store->getUrl("cms/page/view", ["id" => $page->getId()]);
-        }
+        }*/
         return $urls;
     }
 
@@ -95,10 +95,10 @@ class CmsPageProvider implements ProviderInterface
             // home page
             return 'cms_index_index';
         }
-        if ($request->getFullActionName('_') === 'cms_page_view') {
+        /*if ($request->getFullActionName('_') === 'cms_page_view') {
             // home page
             return $request->getParam('page_id');
-        }
+        }*/
 
         return null;
     }
