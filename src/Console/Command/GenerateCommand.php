@@ -83,9 +83,6 @@ class GenerateCommand extends Command
         try {
             $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 
-            $output->writeln('<info>Disabling ' . Config::CONFIG_PATH_ENABLED . ' while collecting css...</info>');
-            $this->getApplication()->find("config:set")->run(new ArrayInput(["path" => Config::CONFIG_PATH_ENABLED, "value" => "0", "--lock-env" => 1]), $output);
-            $this->getApplication()->find("app:config:import")->run(new ArrayInput([]), $output);
             $this->getApplication()->find("cache:flush")->run(new ArrayInput([]), $output);
 
             $this->criticalCssService->test($this->config->getCriticalBinary());
@@ -100,9 +97,6 @@ class GenerateCommand extends Command
             $output->writeln('<info>Generating Critical CSS for ' . count($processes) . ' URLs...</info>');
             $processManager->executeProcesses($processes, true);
 
-            $output->writeln('<info>Enabling ' . Config::CONFIG_PATH_ENABLED . '...</info>');
-            $this->getApplication()->find("config:set")->run(new ArrayInput(["path" => Config::CONFIG_PATH_ENABLED, "value" => "1", "--lock-env" => 1]), $output);
-            $this->getApplication()->find("app:config:import")->run(new ArrayInput([]), $output);
             $this->getApplication()->find("cache:flush")->run(new ArrayInput([]), $output);
 
         } catch (\Throwable $e) {
