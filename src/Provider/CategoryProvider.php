@@ -62,7 +62,7 @@ class CategoryProvider implements ProviderInterface
             $collection->addAttributeToSelect('custom_design','left');
             $collection->groupByAttribute('custom_design');
             $collection->addAttributeToSort('children_count', \Magento\Framework\Data\Collection::SORT_ORDER_DESC);
-
+            $collection->groupByAttribute('entity_id');
             foreach ($collection->getItems() as $category) {
                 /** @var $category Category */
                 $urls[$this->getIdentifier($category)] = $store->getUrl("catalog/category/view/",["id" => $category->getId()]);
@@ -77,6 +77,7 @@ class CategoryProvider implements ProviderInterface
             $collection->addAttributeToFilter('display_mode', ['neq' => Category::DM_PRODUCT]);
             $collection->addAttributeToFilter('level', ['gt' => 1]);
             $collection->addUrlRewriteToResult();
+            $collection->groupByAttribute('entity_id');
 
             foreach ($collection->getItems() as $category) {
                 /** @var $category Category */
