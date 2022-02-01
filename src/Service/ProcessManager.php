@@ -125,6 +125,8 @@ class ProcessManager
     {
         $processList = [];
         foreach ($this->storeManager->getStores() as $storeId => $store) {
+            // Skip store if store is not active
+            if (!$store->getIsActive()) continue;
             $this->emulation->startEnvironmentEmulation($storeId,\Magento\Framework\App\Area::AREA_FRONTEND, true);
             $this->storeManager->setCurrentStore($storeId);
 
