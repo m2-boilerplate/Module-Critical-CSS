@@ -172,7 +172,7 @@ class ProcessManager
         }
 
         $criticalCss = $process->getOutput();
-        $this->storage->saveCriticalCss($context->getIdentifier(), $this->cssProcessor->process($criticalCss));
+        $this->storage->saveCriticalCss($context->getIdentifier(), $this->cssProcessor->process($context->getStore(), $criticalCss));
         $size = $this->storage->getFileSize($context->getIdentifier());
         if (!$size) {
             $size = '?';
