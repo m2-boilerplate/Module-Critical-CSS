@@ -4,6 +4,7 @@ namespace M2Boilerplate\CriticalCss\Service;
 
 use Magento\Framework\UrlInterface;
 use Magento\Framework\View\Url\CssResolver;
+use Magento\Store\Api\Data\StoreInterface;
 use Magento\Store\Model\Store;
 use Magento\Store\Model\StoreManager;
 
@@ -24,7 +25,7 @@ class CssProcessor
         $this->storeManager = $storeManager;
     }
 
-    public function process(string $cssContent)
+    public function process(StoreInterface $store, string $cssContent)
     {
         $pattern = '@(\.\./)*(/static|/pub/static)/(.+)$@i'; // matches paths that contain pub/static/ or just static/
         $store = $this->storeManager->getStore(); /** @var Store $store */
