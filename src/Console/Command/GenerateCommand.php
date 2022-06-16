@@ -11,10 +11,10 @@ use Magento\Framework\App\Config\Storage\WriterInterface;
 use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\App\State;
 use Symfony\Component\Console\Command\Command;
-use Symfony\Component\Console\Input\ArrayInput;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Magento\Framework\FlagManager;
+use Magento\Framework\App\Cache\Manager;
 
 class GenerateCommand extends Command
 {
@@ -44,9 +44,20 @@ class GenerateCommand extends Command
      */
     protected $state;
 
+    /**
+     * @var FlagManager
+     */
     protected $flagManager;
 
+    /**
+     * @var WriterInterface
+     */
     protected $configWriter;
+
+    /**
+     * @var Manager
+     */
+    protected $cacheManager;
 
     public function __construct(
         FlagManager $flagManager,
@@ -57,6 +68,7 @@ class GenerateCommand extends Command
         ProcessManagerFactory $processManagerFactory,
         State $state,
         WriterInterface $configWriter,
+        Manager $cacheManager,
         ?string $name = null
     )
     {
@@ -69,6 +81,7 @@ class GenerateCommand extends Command
         $this->criticalCssService = $criticalCssService;
         $this->state = $state;
         $this->configWriter = $configWriter;
+        $this->cacheManager = $cacheManager;
     }
 
 
@@ -83,7 +96,7 @@ class GenerateCommand extends Command
         try {
             $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 
-            $this->getApplication()->find("cache:flush")->run(new ArrayInput([]), $output);
+            $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
 
             $this->criticalCssService->test($this->config->getCriticalBinary());
             $consoleHandler = $this->consoleHandlerFactory->create(['output' => $output]);
@@ -97,13 +110,11 @@ class GenerateCommand extends Command
             $output->writeln('<info>Generating Critical CSS for ' . count($processes) . ' URLs...</info>');
             $processManager->executeProcesses($processes, true);
 
-            $this->getApplication()->find("cache:flush")->run(new ArrayInput([]), $output);
+            $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
 
         } catch (\Throwable $e) {
             throw $e;
         }
         return 0;
     }
-
-
 }
