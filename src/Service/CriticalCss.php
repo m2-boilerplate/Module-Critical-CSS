@@ -44,6 +44,7 @@ class CriticalCss
 
         $command[] = '--strict';
         $command[] = '--no-request-https.rejectUnauthorized';
+        $command[] = "--ignore-rule '[data-role=main-css-loader]'";
 
         /** @var Process $process */
         $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);
