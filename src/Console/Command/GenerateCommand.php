@@ -96,10 +96,13 @@ class GenerateCommand extends Command
         try {
             $this->state->setAreaCode(\Magento\Framework\App\Area::AREA_ADMINHTML);
 
-            $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
+            // TODO: decide whether cache flushing is really required. temporally commented.
+            //$this->cacheManager->flush($this->cacheManager->getAvailableTypes());
 
             $this->criticalCssService->test($this->config->getCriticalBinary());
+
             $consoleHandler = $this->consoleHandlerFactory->create(['output' => $output]);
+
             $logger = $this->objectManager->create('M2Boilerplate\CriticalCss\Logger\Console', ['handlers' => ['console' => $consoleHandler]]);
             $output->writeln('<info>Generating Critical CSS</info>');
 
