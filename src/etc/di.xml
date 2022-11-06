@@ -11,7 +11,7 @@
             <argument name="providers" xsi:type="array">
                 <item name="default" xsi:type="object">M2Boilerplate\CriticalCss\Provider\DefaultProvider</item>
                 <item name="cms_page" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CmsPageProvider</item>
-                 <item name="customer" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CustomerProvider</item>
+                <item name="customer" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CustomerProvider</item>
                 <item name="contact" xsi:type="object">M2Boilerplate\CriticalCss\Provider\ContactProvider</item>
                 <item name="catalogsearch" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CatalogSearchProvider</item>
                 <item name="product" xsi:type="object">M2Boilerplate\CriticalCss\Provider\ProductProvider</item>
@@ -43,14 +43,5 @@
         <arguments>
             <argument name="logger" xsi:type="object">M2Boilerplate\CriticalCss\Logger\File</argument>
         </arguments>
-    </type>
-
-    <!-- override to disable dev/css/use_critical_css logic for critical-css generation requests -->
-    <type name="Magento\Framework\View\Result\Layout">
-        <plugin name="asyncCssLoad" disabled="true"/>
-        <plugin name="bpcriticalcss_asyncCssLoad"
-                type="M2Boilerplate\CriticalCss\Plugin\AsyncCssPlugin"
-                sortOrder="-20"
-                disabled="false" />
     </type>
 </config>
