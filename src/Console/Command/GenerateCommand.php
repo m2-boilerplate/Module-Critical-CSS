@@ -113,7 +113,8 @@ class GenerateCommand extends Command
             $output->writeln('<info>Generating Critical CSS for ' . count($processes) . ' URLs...</info>');
             $processManager->executeProcesses($processes, true);
 
-            $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
+            // TODO: decide whether cache flushing is really required. temporally commented.
+            // $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
 
         } catch (\Throwable $e) {
             throw $e;
