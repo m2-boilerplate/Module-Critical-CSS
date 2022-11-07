@@ -145,6 +145,13 @@ class ProcessManager
         $processList = [];
         $urls = $provider->getUrls($store);
         foreach ($urls as $identifier => $url) {
+            // NOTE: start: SR WORKAROUND
+            //     to add random query string to generated URLs to get non cached page content
+            $qParamConcatChar = mb_strpos($url, '?') === false ? '?' : '&';
+            $url .= $qParamConcatChar . 'm2bp_t=' . time();
+            // end: SR WORKAROUND
+
+
             $this->logger->info(sprintf('[%s:%s|%s] - %s', $store->getCode(), $provider->getName(), $identifier, $url));
             $process = $this->criticalCssService->createCriticalCssProcess(
                 $url,
