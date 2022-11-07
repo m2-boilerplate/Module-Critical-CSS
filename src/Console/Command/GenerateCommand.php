@@ -104,16 +104,32 @@ class GenerateCommand extends Command
             $consoleHandler = $this->consoleHandlerFactory->create(['output' => $output]);
 
             $logger = $this->objectManager->create('M2Boilerplate\CriticalCss\Logger\Console', ['handlers' => ['console' => $consoleHandler]]);
-            $output->writeln('<info>Generating Critical CSS</info>');
 
             /** @var ProcessManager $processManager */
             $processManager = $this->processManagerFactory->create(['logger' => $logger]);
+
+
+            $output->writeln('<warning>\'Use CSS critical path\' status ' . ($this->config->isEnabled() ? 'Enabled' : 'Disabled') . '</warning>');
+            $output->writeln("<info>-----------------------------------------</info>");
+            $output->writeln('<info>Critical Command Configured Options</info>');
+            $output->writeln("<info>-----------------------------------------</info>");
+            $output->writeln('<comment>Screen Dimensions: ' . implode('', $this->config->getDimensions()) . '</comment>');
+            $output->writeln('<comment>Force Include Css Selectors: ' . implode('', $this->config->getForceIncludeCssSelectors()) . '</comment>');
+
+            $output->writeln('<comment>HTTP Auth Username: ' .  $this->config->getUsername() . '</comment>');
+            $output->writeln('<comment>HTTP Auth Password: ' .  $this->config->getPassword() . '</comment>');
+
+            $output->writeln("<info>-----------------------------------------</info>");
             $output->writeln('<info>Gathering URLs...</info>');
+            $output->writeln("<info>-----------------------------------------</info>");
             $processes = $processManager->createProcesses();
+            $output->writeln("<info>-----------------------------------------</info>");
             $output->writeln('<info>Generating Critical CSS for ' . count($processes) . ' URLs...</info>');
+            $output->writeln("<info>-----------------------------------------</info>");
             $processManager->executeProcesses($processes, true);
 
-            $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
+            // TODO: decide whether cache flushing is really required. temporally commented.
+            // $this->cacheManager->flush($this->cacheManager->getAvailableTypes());
 
         } catch (\Throwable $e) {
             throw $e;
