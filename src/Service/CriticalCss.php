@@ -23,6 +23,7 @@ class CriticalCss
         string $url,
         array $dimensions,
         string $criticalBinary = 'critical',
+        array $forceIncludeCssSelectors,
         ?string $username = null,
         ?string $password = null
     ) {
@@ -30,6 +31,12 @@ class CriticalCss
             $criticalBinary,
             $url
         ];
+
+        foreach ($forceIncludeCssSelectors as $selector) {
+            $command[] = '--penthouse-forceInclude';
+            $command[] = $selector;
+        }
+
         foreach ($dimensions as $dimension) {
             $command[] = '--dimensions';
             $command[] = $dimension;
@@ -47,6 +54,9 @@ class CriticalCss
 
         $command[] = '--ignore-atrule';
         $command[] = '@font-face';
+
+        //$command[] = '--penthouse-blockJSRequests';
+        //$command[] = 'true';
 
         /** @var Process $process */
         $process = $this->processFactory->create(['command' => $command, 'commandline' => $command]);

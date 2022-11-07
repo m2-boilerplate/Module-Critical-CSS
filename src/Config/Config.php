@@ -14,6 +14,7 @@ class Config
     const CONFIG_PATH_USERNAME = 'dev/css/critical_css_username';
     const CONFIG_PATH_PASSWORD = 'dev/css/critical_css_password';
     const CONFIG_PATH_DIMENSIONS = 'dev/css/critical_css_dimensions';
+    const CONFIG_PATH_FORCE_INCLUDE_CSS_SELECTORS = 'dev/css/critical_css_force_include_css_selectors';
 
     /**
      * @var ScopeConfigInterface
@@ -36,6 +37,16 @@ class Config
     public function isEnabled(): bool
     {
         return (bool) $this->scopeConfig->isSetFlag(self::CONFIG_PATH_ENABLED);
+    }
+
+    public function getForceIncludeCssSelectors(): array
+    {
+        $cssSelectors = $this->scopeConfig->getValue(self::CONFIG_PATH_FORCE_INCLUDE_CSS_SELECTORS);
+        $cssSelectors = explode(',', $cssSelectors);
+        $cssSelectors = array_map('trim', $cssSelectors);
+        $cssSelectors = array_filter($cssSelectors);
+
+        return $cssSelectors;
     }
 
     public function getDimensions(): array

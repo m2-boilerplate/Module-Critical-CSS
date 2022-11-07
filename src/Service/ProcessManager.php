@@ -150,6 +150,7 @@ class ProcessManager
                 $url,
                 $this->config->getDimensions(),
                 $this->config->getCriticalBinary(),
+                $this->config->getForceIncludeCssSelectors(),
                 $this->config->getUsername(),
                 $this->config->getPassword()
             );
