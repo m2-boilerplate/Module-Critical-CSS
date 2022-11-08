@@ -2,4 +2,14 @@
     <type name="Magento\Theme\Block\Html\Header\CriticalCss">
         <plugin name="m2bp.critical-css" type="M2Boilerplate\CriticalCss\Plugin\CriticalCss" sortOrder="99" />
     </type>
+
+    <!-- override to disable dev/css/use_critical_css logic for critical-css generation requests -->
+    <type name="Magento\Framework\View\Result\Layout">
+        <plugin name="asyncCssLoad" disabled="true"/>
+        <plugin name="bpcriticalcss_asyncCssLoad"
+                type="M2Boilerplate\CriticalCss\Plugin\AsyncCssPlugin"
+                sortOrder="-20"
+                disabled="false" />
+    </type>
+
 </config>
