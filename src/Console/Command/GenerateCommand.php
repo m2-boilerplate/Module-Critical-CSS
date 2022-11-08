@@ -7,17 +7,20 @@ use M2Boilerplate\CriticalCss\Logger\Handler\ConsoleHandlerFactory;
 use M2Boilerplate\CriticalCss\Service\CriticalCss;
 use M2Boilerplate\CriticalCss\Service\ProcessManager;
 use M2Boilerplate\CriticalCss\Service\ProcessManagerFactory;
+use Magento\Framework\App\Cache\Manager;
 use Magento\Framework\App\Config\Storage\WriterInterface;
-use Magento\Framework\ObjectManagerInterface;
 use Magento\Framework\App\State;
+use Magento\Framework\FlagManager;
+use Magento\Framework\ObjectManagerInterface;
 use Symfony\Component\Console\Command\Command;
 use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Input\InputOption;
 use Symfony\Component\Console\Output\OutputInterface;
-use Magento\Framework\FlagManager;
-use Magento\Framework\App\Cache\Manager;
 
 class GenerateCommand extends Command
 {
+    public const INPUT_OPTION_KEY_STORE_IDS = 'store-id';
+
     /**
      * @var ProcessManagerFactory
      */
@@ -88,6 +91,7 @@ class GenerateCommand extends Command
     protected function configure()
     {
         $this->setName('m2bp:critical-css:generate');
+        $this->getDefinition()->addOptions($this->getOptionsList());
         parent::configure();
     }
 
@@ -122,7 +126,11 @@ class GenerateCommand extends Command
             $output->writeln("<info>-----------------------------------------</info>");
             $output->writeln('<info>Gathering URLs...</info>');
             $output->writeln("<info>-----------------------------------------</info>");
-            $processes = $processManager->createProcesses();
+
+            $processes = $processManager->createProcesses(
+                $this->getStoreIds($input) ?: null
+            );
+
             $output->writeln("<info>-----------------------------------------</info>");
             $output->writeln('<info>Generating Critical CSS for ' . count($processes) . ' URLs...</info>');
             $output->writeln("<info>-----------------------------------------</info>");
@@ -135,5 +143,33 @@ class GenerateCommand extends Command
             throw $e;
         }
         return 0;
+    }
+
+    /**
+     * Returns list of options and arguments for the command
+     *
+     * @return mixed
+     */
+    public function getOptionsList()
+    {
+        return [
+            new InputOption(
+                self::INPUT_OPTION_KEY_STORE_IDS,
+                null,
+                InputOption::VALUE_REQUIRED,
+                'Coma-separated list of Magento Store IDs or single value to process specific Store.'
+            ),
+        ];
+    }
+
+    /**
+     * @param InputInterface $input
+     * @return int[]
+     */
+    private function getStoreIds(InputInterface $input): array
+    {
+        $ids = $input->getOption(self::INPUT_OPTION_KEY_STORE_IDS) ?: '';
+        $ids = explode(',', $ids);
+        return array_map('intval', array_filter($ids));
     }
 }

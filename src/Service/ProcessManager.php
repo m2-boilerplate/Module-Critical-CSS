@@ -2,9 +2,9 @@
 
 namespace M2Boilerplate\CriticalCss\Service;
 
-use M2Boilerplate\CriticalCss\Model\ProcessContextFactory;
 use M2Boilerplate\CriticalCss\Config\Config;
 use M2Boilerplate\CriticalCss\Model\ProcessContext;
+use M2Boilerplate\CriticalCss\Model\ProcessContextFactory;
 use M2Boilerplate\CriticalCss\Provider\Container;
 use M2Boilerplate\CriticalCss\Provider\ProviderInterface;
 use Magento\Store\Api\Data\StoreInterface;
@@ -121,10 +121,20 @@ class ProcessManager
 
     }
 
-    public function createProcesses(): array
+    /**
+     * @param array|null $storeIds
+     * @return array
+     */
+    public function createProcesses(?array $storeIds = null): array
     {
         $processList = [];
         foreach ($this->storeManager->getStores() as $storeId => $store) {
+            // NOTE: skip Store in case specific StoreIds to process are provided,
+            //     but current StoreId is not in the List
+            if ($storeIds !== null && !in_array($storeId, $storeIds, true)) {
+                continue;
+            }
+
             // Skip store if store is not active
             if (!$store->getIsActive()) continue;
             $this->emulation->startEnvironmentEmulation($storeId,\Magento\Framework\App\Area::AREA_FRONTEND, true);
