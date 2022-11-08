@@ -109,7 +109,7 @@ class GenerateCommand extends Command
             $processManager = $this->processManagerFactory->create(['logger' => $logger]);
 
 
-            $output->writeln('<warning>\'Use CSS critical path\' status ' . ($this->config->isEnabled() ? 'Enabled' : 'Disabled') . '</warning>');
+            $output->writeln('<info>\'Use CSS critical path\' config is ' . ($this->config->isEnabled() ? 'Enabled' : 'Disabled') . '</info>');
             $output->writeln("<info>-----------------------------------------</info>");
             $output->writeln('<info>Critical Command Configured Options</info>');
             $output->writeln("<info>-----------------------------------------</info>");
