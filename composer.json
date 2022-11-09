@@ -1,6 +1,9 @@
 {
     "name": "m2-boilerplate/module-critical-css",
     "description": "Magento 2 module to automatically generate critical css with the addyosmani/critical npm package",
+    "type": "magento2-module",
+    "prefer-stable": true,
+    "version": "2.0.0",
     "keywords": [
     ],
     "require": {
