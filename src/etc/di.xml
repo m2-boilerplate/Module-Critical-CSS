@@ -9,7 +9,7 @@
     <type name="M2Boilerplate\CriticalCss\Provider\Container">
         <arguments>
             <argument name="providers" xsi:type="array">
-                <item name="default" xsi:type="object">M2Boilerplate\CriticalCss\Provider\DefaultProvider</item>
+               <!-- <item name="default" xsi:type="object">M2Boilerplate\CriticalCss\Provider\DefaultProvider</item>-->
                 <item name="cms_page" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CmsPageProvider</item>
                 <item name="customer" xsi:type="object">M2Boilerplate\CriticalCss\Provider\CustomerProvider</item>
                 <item name="contact" xsi:type="object">M2Boilerplate\CriticalCss\Provider\ContactProvider</item>

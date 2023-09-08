@@ -65,9 +65,18 @@ class CriticalCss
         $this->storeManager = $storeManager;
     }
 
+    /**
+     * @param \Magento\Theme\Block\Html\Header\CriticalCss $subject
+     * @param $result generated CSS code to be inline injected to page head
+     * @return string|null
+     * @throws \Magento\Framework\Exception\FileSystemException
+     */
     public function afterGetCriticalCssData(\Magento\Theme\Block\Html\Header\CriticalCss $subject, $result)
     {
+        $result = '';
+
         $providers = $this->container->getProviders();
+
         try {
             $store = $this->storeManager->getStore();
         } catch (NoSuchEntityException $e) {
@@ -77,9 +86,9 @@ class CriticalCss
         foreach ($providers as $provider) {
             if ($identifier = $provider->getCssIdentifierForRequest($this->request, $this->layout)) {
                 $identifier = $this->identifier->generateIdentifier($provider, $store, $identifier);
-                $css = $this->storage->getCriticalCss($identifier);
-                if ($css) {
-                    return $css;
+                $result = $this->storage->getCriticalCss($identifier);
+                if ($result) {
+                    break;
                 }
             }
         }
