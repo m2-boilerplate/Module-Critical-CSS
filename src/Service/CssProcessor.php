@@ -38,6 +38,9 @@ class CssProcessor
                  * becomes
                  * https://base.url/pub/static/version/frontend/XXX/YYY/de_DE/ZZZ/asset.ext
                  */
+                if (isset($matches[0][3])) {
+                    return $baseUrl . ltrim($matches[0][2].'/'.$matches[0][3], '/');
+                }
                 return $baseUrl . ltrim($matches[0][0], '/');
             }
             return $path;
